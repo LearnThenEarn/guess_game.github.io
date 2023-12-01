@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Number Guessing Game</h1>
+    
+    <form id="gameForm">
+        <label for="number">Enter a number to specify the range:</label>
+        <input type="number" id="numberInput" required>
+        <br>
+        <label for="guess">Your Guess:</label>
+        <input type="number" id="guessInput" required>
+        <br>
+        <button type="button" onclick="startGame()">Start Game</button>
+        <button type="button" onclick="submitGuess()">Submit Guess</button>
+    </form>
+    
+    <p id="result"></p>
+
+    <script>
+        let randomNumber, numberOfTries;
+
+        function startGame() {
+            const number = parseInt(document.getElementById('numberInput').value);
+            if (isNaN(number) || number <= 0) {
+                alert('Please enter a valid positive number.');
+                return;
+            }
+
+            randomNumber = Math.floor(Math.random() * number) + 1;
+            numberOfTries = 5;
+
+            document.getElementById('result').innerText = '';
+            document.getElementById('numberInput').disabled = true;
+            document.getElementById('guessInput').disabled = false;
+        }
+
+        function submitGuess() {
+            const guess = parseInt(document.getElementById('guessInput').value);
+
+            if (isNaN(guess)) {
+                alert('Please enter a valid number.');
+                return;
+            }
+
+            if (numberOfTries > 0) {
+                numberOfTries--;
+
+                if (guess === randomNumber) {
+                    document.getElementById('result').innerText = `Good game! You found it!! The number was ${randomNumber}`;
+                    document.getElementById('guessInput').disabled = true;
+                } else {
+                    document.getElementById('result').innerText = `Sorry, your guess is incorrect. Tries left: ${numberOfTries}`;
+                }
+            } else {
+                document.getElementById('result').innerText = `Sorry, you ran out of tries. The correct number was ${randomNumber}`;
+                document.getElementById('guessInput').disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>
